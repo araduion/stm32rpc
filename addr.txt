@@ -1,0 +1,86 @@
+#define SPI2                ((SPI_TypeDef *) SPI2_BASE)
+#define SPI2_BASE             (APB1PERIPH_BASE + 0x3800)
+#define APB1PERIPH_BASE       PERIPH_BASE
+#define PERIPH_BASE           ((uint32_t)0x40000000) /*!< Peripheral base address in the alias region */
+(gdb) x/x 0x40003800
+0x40003800:	0x0000835c
+(gdb) 
+typedef struct
+{
+  __IO uint16_t CR1;
+  uint16_t  RESERVED0;
+  __IO uint16_t CR2;
+  uint16_t  RESERVED1;
+  __IO uint16_t SR;
+  uint16_t  RESERVED2;
+  __IO uint16_t DR;
+  uint16_t  RESERVED3;
+  __IO uint16_t CRCPR;
+  uint16_t  RESERVED4;
+  __IO uint16_t RXCRCR;
+  uint16_t  RESERVED5;
+  __IO uint16_t TXCRCR;
+  uint16_t  RESERVED6;
+  __IO uint16_t I2SCFGR;
+  uint16_t  RESERVED7;
+  __IO uint16_t I2SPR;
+  uint16_t  RESERVED8;  
+} SPI_TypeDef;
+
+Setate!!!
+
+Bit 9 SSM: Software slave management
+When the SSM bit is set, the NSS pin input is replaced with the value from the SSI bit.
+0: Software slave management disabled
+1: Software slave management enabled
+Note: This bit is not used in I2S mode
+Bit 8 SSI: Internal slave select
+This bit has an effect only when the SSM bit is set. The value of this bit is forced onto the
+NSS pin and the IO value of the NSS pin is ignored.
+Note: This bit is not used in I2S mode
+
+DMA1->ISR
+#define DMA1                ((DMA_TypeDef *) DMA1_BASE)
+#define DMA1_BASE             (AHBPERIPH_BASE + 0x0000)
+#define AHBPERIPH_BASE        (PERIPH_BASE + 0x20000)
+#define PERIPH_BASE           ((uint32_t)0x40000000) /*!< Peripheral base address in the alias region */
+
+typedef struct
+{
+  __IO uint32_t ISR;
+  __IO uint32_t IFCR;
+} DMA_TypeDef;
+(gdb) p *(DMA_TypeDef*)0x40020000
+printf "%08x\n", ((DMA_TypeDef*)0x40020000)->ISR
+
+#define DMA1_Channel4       ((DMA_Channel_TypeDef *) DMA1_Channel4_BASE)
+#define DMA1_Channel5       ((DMA_Channel_TypeDef *) DMA1_Channel5_BASE)
+#define DMA1_Channel4_BASE    (AHBPERIPH_BASE + 0x0044)
+#define DMA1_Channel5_BASE    (AHBPERIPH_BASE + 0x0058)
+#define AHBPERIPH_BASE        (PERIPH_BASE + 0x20000)
+#define PERIPH_BASE           ((uint32_t)0x40000000)
+ch4
+(gdb) p *(DMA_Channel_TypeDef *)0x40020044
+$14 = {CCR = 139, CNDTR = 5, CPAR = 1073756172, CMAR = 536873216}
+ch5
+(gdb) p *(DMA_Channel_TypeDef *)0x40020058
+$15 = {CCR = 155, CNDTR = 4, CPAR = 1073756172, CMAR = 536874317}
+
+#define USART1              ((USART_TypeDef *) USART1_BASE)
+#define USART1_BASE           (APB2PERIPH_BASE + 0x3800)
+#define APB2PERIPH_BASE       (PERIPH_BASE + 0x10000)
+#define PERIPH_BASE           ((uint32_t)0x40000000)
+p *(USART_TypeDef *)0x40013800
+
+#define TIM2                ((TIM_TypeDef *) TIM2_BASE)
+#define TIM2_BASE             (APB1PERIPH_BASE + 0x0000)
+#define APB1PERIPH_BASE       PERIPH_BASE
+#define PERIPH_BASE           ((uint32_t)0x40000000) /*!< Peripheral base address in the alias region */
+p *(TIM_TypeDef *)0x40000000
+printf "%08x\n", ((TIM_TypeDef *)0x40000000)->CR1
+
+#define TIM2                ((TIM_TypeDef *) TIM2_BASE)
+#define TIM2_BASE             (APB1PERIPH_BASE + 0x0000)
+#define APB1PERIPH_BASE       PERIPH_BASE
+#define PERIPH_BASE           ((uint32_t)0x40000000) /*!< Peripheral base address in the alias region */
+
