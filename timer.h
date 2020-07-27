@@ -28,6 +28,7 @@ void timer_init(void);
 void timer_pause(void);
 int in_timer_list(uint8_t id);
 unsigned long cr_time(void);
+void sleep(unsigned long s);
 
 #endif
 

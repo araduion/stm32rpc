@@ -1,9 +1,10 @@
 #include <stdint.h>
 #include "power_gpio.h"
 #include "net.h"
+#include "uart.h"
 #include "st/stm32f10x.h"
 
-static pwr_mask = 0x0f; /* all on by default */
+static uint8_t pwr_mask = 0x0f; /* all on by default */
 
 void set_power_pin_state(void)
 {

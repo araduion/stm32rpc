@@ -9,6 +9,7 @@ Year = 2016
 #include "st/stm32f10x.h"
 #include "arm/irq.h"
 #include "task.h"
+#include "uart.h"
 
 task_sleep_t sleep_list[] = { [0 ... TASK_NUM] .in_use = false }, *first_sleep = NULL;
 static unsigned long time_counter = 0;

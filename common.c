@@ -166,6 +166,11 @@ void *_memcpy(void *dest, void *src, size_t cnt)
     }
 }
 
+void *memcpy(void *dest, void *src, size_t cnt)
+{
+    return _memcpy(dest,src,cnt);
+}
+
 void *memset(void* dest, int val, size_t len)
 {
     char *dst = dest;

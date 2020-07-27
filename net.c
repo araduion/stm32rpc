@@ -1,6 +1,8 @@
 #include "enc28j60.h"
 #include "uart.h"
 #include "net.h"
+#include "spi2.h"
+#include "power_gpio.h"
 
 #if NET_DEBUG
 #define dbg_pkt(...) uart_printf(__VA_ARGS__)
@@ -45,7 +47,7 @@ uint32_t last_age; /* < CACHE_SIZE */
 #endif
 
 /* optimized copy/cmp functions */
-int inline ip6_cmp(ip6addr_t *ip6_1, ip6addr_t *ip6_2)
+int ip6_cmp(ip6addr_t *ip6_1, ip6addr_t *ip6_2)
 {
     int8_t i;
     uint32_t *a= (uint32_t*)ip6_1[0];
@@ -58,7 +60,7 @@ int inline ip6_cmp(ip6addr_t *ip6_1, ip6addr_t *ip6_2)
     return 0;
 }
 
-void inline ip6_cpy(ip6addr_t *ip6_1, ip6addr_t *ip6_2)
+void ip6_cpy(ip6addr_t *ip6_1, ip6addr_t *ip6_2)
 {
     int8_t i;
     uint32_t *a= (uint32_t*)ip6_1[0];
@@ -81,7 +83,7 @@ int inline mac_cmp(macaddr_t *mac1, macaddr_t *mac2)
     return 0;
 }
 
-void inline mac_cpy(macaddr_t *mac1, macaddr_t *mac2)
+void mac_cpy(macaddr_t *mac1, macaddr_t *mac2)
 {
     int8_t i;
     uint16_t *a= (uint16_t*)mac1[0];
@@ -696,7 +698,7 @@ void net_start(void *arg)
         }
         if (0 == (j60_cr_state & LINK_LOCAL_ADDR)) {
             memset(peer_ip6,0,sizeof(ip6addr_t));
-            j60_receive_packets((j60_rcv_cb_t)process_incoming_proto);
+            j60_receive_packets(process_incoming_proto);
             if (0 == ip6_cmp(&peer_ip6, &lladdr)) {
                 j60_cr_state |= DAD_FAIL;
                 uart_puts("DAD failed!\r\n");
@@ -707,7 +709,7 @@ void net_start(void *arg)
                 pack_size = create_rtr_sol(&tx_pkt_buf[2]);
                 j60_send_pkt(&tx_pkt_buf[2],pack_size);
                 sleep(10);
-                j60_receive_packets((j60_rcv_cb_t)process_incoming_proto);
+                j60_receive_packets(process_incoming_proto);
                 continue;
             }
         }

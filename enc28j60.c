@@ -586,7 +586,7 @@ uint8_t j60_receive_packets(j60_rcv_cb_t cb)
     j60_set_bank(1);
     pkt_cnt = j60_read_ctl(0x19);
 
-    if (0 == pkt_cnt) return;
+    if (0 == pkt_cnt) return 0;
 #if NET_DEBUG
     uart_printf("got %d pkts!\r\n", pkt_cnt);
 #endif
@@ -617,7 +617,7 @@ uint8_t j60_receive_packets(j60_rcv_cb_t cb)
             GPIOB->ODR &= ~(1 << 12);
             spi2_transf(rx_pkt_buf,pkt_vec->pkt_size,ax_pkt_buf,pkt_vec->pkt_size);
             GPIOB->ODR |= 1 << 12;
-            cb(rx_pkt_buf + 1,pkt_vec->pkt_size);
+            cb((eth_mac_hdr_t*)(rx_pkt_buf + 1),pkt_vec->pkt_size);
         }
 #if 0
         for (j = 0; j < pkt_vec->pkt_size; j++) {

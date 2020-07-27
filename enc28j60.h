@@ -2,6 +2,7 @@
 #define __ENC28J60_H__
 
 #include "common.h"
+#include "net.h"
 
 #define MII_L 0x18
 #define MII_H 0x19
@@ -160,7 +161,7 @@ typedef enum j60_state_ {
     DAD_GLOB_FAIL = 64
 } j60_state_t;
 
-typedef (*j60_rcv_cb_t)(char *,uint16_t);
+typedef void (*j60_rcv_cb_t)(eth_mac_hdr_t *,uint16_t);
 
 extern bool j60_eth_is_init;
 extern j60_state_t j60_prev_state;
